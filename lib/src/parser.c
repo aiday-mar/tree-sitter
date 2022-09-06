@@ -1866,6 +1866,7 @@ void ts_parser_reset(TSParser *self) {
   self->accept_count = 0;
 }
 
+// Actual function which does the parsing
 TSTree *ts_parser_parse(
   TSParser *self,
   const TSTree *old_tree,
@@ -1926,6 +1927,8 @@ TSTree *ts_parser_parse(
           ts_stack_position(self->stack, version).extent.column
         );
 
+        // This function will return false when the time has passed, in that case we return null
+        // Otherwise if ts_parser_advance is true, then we do not return early
         if (!ts_parser__advance(self, version, allow_node_reuse)) return NULL;
         LOG_STACK();
 
